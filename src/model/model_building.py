@@ -102,7 +102,7 @@ def main() -> None:
         params = load_params(params_path="params.yaml")
         
         # Load training data
-        X_train, y_train = load_data(data_path="./data/features/train_bow.csv")
+        X_train, y_train = load_data(data_path="./data/features/train_tfidf.csv")
         
         # Train model
         clf = train_model(X_train, y_train, params)

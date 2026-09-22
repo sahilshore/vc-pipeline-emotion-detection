@@ -5,7 +5,7 @@ import os
 import yaml
 import logging
 from typing import Tuple 
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 # Logging configuration
 logger = logging.getLogger("feature_engineering")
@@ -63,7 +63,7 @@ def load_data(train_path: str, test_path: str) -> Tuple[pd.DataFrame, pd.DataFra
 
 def apply_bow(train_data: pd.DataFrame, test_data: pd.DataFrame, max_features: int) -> Tuple[pd.DataFrame, pd.DataFrame]:
     try:
-        logger.debug('Applying Bag of Words (CountVectorizer)...')
+        logger.debug('Applying Bag of Words (TfidfVectorizer)...')
         
         # Handle NaN values to prevent errors in vectorization
         train_data.fillna('', inplace=True)
@@ -75,8 +75,9 @@ def apply_bow(train_data: pd.DataFrame, test_data: pd.DataFrame, max_features: i
         X_test = test_data['content'].values
         y_test = test_data['sentiment'].values
 
-        # Initialize and apply CountVectorizer
-        vectorizer = CountVectorizer(max_features=max_features)
+
+        # Initialize and apply TfidfVectorizer
+        vectorizer = TfidfVectorizer(max_features=max_features)
         
         X_train_bow = vectorizer.fit_transform(X_train)
         X_test_bow = vectorizer.transform(X_test)
@@ -102,8 +103,8 @@ def save_data(train_df: pd.DataFrame, test_df: pd.DataFrame, data_path: str) -> 
         features_path = os.path.join(data_path, "features")
         os.makedirs(features_path, exist_ok=True)
 
-        train_df.to_csv(os.path.join(features_path, "train_bow.csv"), index=False)
-        test_df.to_csv(os.path.join(features_path, "test_bow.csv"), index=False)
+        train_df.to_csv(os.path.join(features_path, "train_tfidf.csv"), index=False)
+        test_df.to_csv(os.path.join(features_path, "test_tfidf.csv"), index=False)
         logger.debug("Features saved successfully.")
     except Exception as e:
         logger.error(f"Unexpected error saving features data: {e}")

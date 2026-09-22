@@ -102,7 +102,7 @@ def main() -> None:
         clf = load_model(model_path='models/model.pkl')
         
         # Load testing data
-        X_test, y_test = load_data(data_path='./data/features/test_bow.csv')
+        X_test, y_test = load_data(data_path='./data/features/test_tfidf.csv')
         
         # Evaluate model
         metrics_dict = evaluate_model(clf, X_test, y_test)
